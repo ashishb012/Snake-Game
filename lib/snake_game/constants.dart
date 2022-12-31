@@ -15,7 +15,7 @@ bool isGameRunning = false;
 
 List<int> snakePosition = [];
 
-List<int> checkSnakePosition = [];
+List<int> snakeBodyPosition = [];
 
 late Timer timer;
 

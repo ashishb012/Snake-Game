@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:snake_game/snake_game/constants.dart';
-import 'package:snake_game/snake_game/functions.dart';
+import 'package:snake_game/snake_game/snake_functions.dart';
 
 class SnakeGame extends StatefulWidget {
   const SnakeGame({super.key});
@@ -17,12 +17,11 @@ class _SnakeGameState extends State<SnakeGame> {
   @override
   void initState() {
     createSnake();
-
     super.initState();
   }
 
   void createSnake() {
-    for (var i = 0; i < 3; i++) {
+    for (var i = 0; i < 5; i++) {
       snakePosition.add(i);
     }
   }
@@ -30,7 +29,7 @@ class _SnakeGameState extends State<SnakeGame> {
   void startGame() {
     isGameRunning = true;
     timer = Timer.periodic(
-      const Duration(milliseconds: 200),
+      const Duration(milliseconds: 150),
       (timer) {
         moveSnake();
         isGameOver();
@@ -40,18 +39,18 @@ class _SnakeGameState extends State<SnakeGame> {
 
   void moveSnake() {
     switch (snakeDirection) {
-      case SnakeDirection.left:
-        if (snakePosition.last % rowSize == 0) {
-          snakePosition.add(snakePosition.last - 1 + rowSize);
-        } else {
-          snakePosition.add(snakePosition.last - 1);
-        }
-        break;
       case SnakeDirection.right:
         if (snakePosition.last % rowSize == rowSize - 1) {
           snakePosition.add(snakePosition.last + 1 - rowSize);
         } else {
           snakePosition.add(snakePosition.last + 1);
+        }
+        break;
+      case SnakeDirection.left:
+        if (snakePosition.last % rowSize == 0) {
+          snakePosition.add(snakePosition.last - 1 + rowSize);
+        } else {
+          snakePosition.add(snakePosition.last - 1);
         }
         break;
       case SnakeDirection.up:
@@ -71,7 +70,7 @@ class _SnakeGameState extends State<SnakeGame> {
     }
 
     if (snakePosition.last == foodPosition) {
-      onFoodEat();
+      onEatFood();
     } else {
       snakePosition.remove(snakePosition.first);
     }
@@ -79,7 +78,7 @@ class _SnakeGameState extends State<SnakeGame> {
     setState(() {});
   }
 
-  void onFoodEat() {
+  void onEatFood() {
     score++;
     while (snakePosition.contains(foodPosition)) {
       foodPosition = Random().nextInt(totalBoxGridCount - 1);
@@ -87,16 +86,15 @@ class _SnakeGameState extends State<SnakeGame> {
   }
 
   void isGameOver() {
-    checkSnakePosition.addAll(snakePosition);
-    checkSnakePosition.remove(snakePosition.last);
-    if (checkSnakePosition.contains(snakePosition.last)) {
+    snakeBodyPosition.addAll(snakePosition);
+    snakeBodyPosition.remove(snakePosition.last);
+    if (snakeBodyPosition.contains(snakePosition.last)) {
       timer.cancel();
-      HapticFeedback.mediumImpact();
       HapticFeedback.mediumImpact();
       isGameRunning = false;
       resetGame();
     }
-    checkSnakePosition = [];
+    snakeBodyPosition = [];
     setState(() {});
   }
 
@@ -107,7 +105,7 @@ class _SnakeGameState extends State<SnakeGame> {
     score = 0;
     snakeDirection = SnakeDirection.right;
     snakePosition = [];
-    checkSnakePosition = [];
+    snakeBodyPosition = [];
     createSnake();
     setState(() {});
   }
@@ -137,10 +135,12 @@ class _SnakeGameState extends State<SnakeGame> {
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.black,
-            title: const Text("Snake Game",
-                style: TextStyle(
-                  color: Colors.white,
-                )),
+            title: const Text(
+              "Snake Game",
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
             elevation: 8,
             centerTitle: true,
             shape: RoundedRectangleBorder(
