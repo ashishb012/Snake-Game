@@ -148,31 +148,39 @@ class _SnakeGameState extends State<SnakeGame> {
             ),
           ),
           body: Padding(
-            padding: const EdgeInsets.all(5.0),
+            padding: EdgeInsets.all(
+              MediaQuery.of(context).size.width / 25,
+            ),
             child: Column(
               children: [
                 Expanded(
                   flex: 6,
-                  child: GridView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: totalBoxGridCount,
-                    // ignore: prefer_const_constructors
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: rowSize,
-                      crossAxisSpacing: 2,
-                      mainAxisSpacing: 2,
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.width / 25,
+                      bottom: MediaQuery.of(context).size.width / 20,
                     ),
-                    itemBuilder: (context, index) {
-                      if (foodPosition == index) {
-                        return const Food();
-                      } else if (snakePosition.contains(index)) {
-                        return const Snake();
-                      } else {
-                        return Box(
-                          index: index,
-                        );
-                      }
-                    },
+                    child: GridView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: totalBoxGridCount,
+                      // ignore: prefer_const_constructors
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: rowSize,
+                        crossAxisSpacing: 2,
+                        mainAxisSpacing: 2,
+                      ),
+                      itemBuilder: (context, index) {
+                        if (foodPosition == index) {
+                          return const Food();
+                        } else if (snakePosition.contains(index)) {
+                          return const Snake();
+                        } else {
+                          return Box(
+                            index: index,
+                          );
+                        }
+                      },
+                    ),
                   ),
                 ),
                 Expanded(
@@ -181,15 +189,15 @@ class _SnakeGameState extends State<SnakeGame> {
                       children: [
                         Text(
                           "Score: $score ",
-                          style: const TextStyle(
-                            fontSize: 25,
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width / 15,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
                           "HI : $highScore ",
-                          style: const TextStyle(
-                            fontSize: 15,
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width / 20,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -198,7 +206,9 @@ class _SnakeGameState extends State<SnakeGame> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(15.0),
+                  padding: EdgeInsets.all(
+                    MediaQuery.of(context).size.width / 10,
+                  ),
                   child: isGameRunning
                       ? const SizedBox()
                       : ElevatedButton(
