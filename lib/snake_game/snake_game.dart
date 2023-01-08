@@ -85,14 +85,17 @@ class _SnakeGameState extends State<SnakeGame> {
     }
   }
 
-  void isGameOver() {
+  void isGameOver() async {
     snakeBodyPosition.addAll(snakePosition);
     snakeBodyPosition.remove(snakePosition.last);
     if (snakeBodyPosition.contains(snakePosition.last)) {
       timer.cancel();
-      HapticFeedback.mediumImpact();
+      await HapticFeedback.mediumImpact();
+      await HapticFeedback.vibrate();
+      await Future.delayed(const Duration(seconds: 1));
       isGameRunning = false;
       resetGame();
+      startGame();
     }
     snakeBodyPosition = [];
     setState(() {});
@@ -207,7 +210,7 @@ class _SnakeGameState extends State<SnakeGame> {
                 ),
                 Padding(
                   padding: EdgeInsets.all(
-                    MediaQuery.of(context).size.width / 10,
+                    MediaQuery.of(context).size.width / 20,
                   ),
                   child: isGameRunning
                       ? const SizedBox()
