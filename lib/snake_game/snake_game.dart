@@ -21,7 +21,7 @@ class _SnakeGameState extends State<SnakeGame> {
   }
 
   void createSnake() {
-    for (var i = 0; i < 10; i++) {
+    for (var i = 0; i < 5; i++) {
       snakePosition.add(i);
     }
   }
