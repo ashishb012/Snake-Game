@@ -21,7 +21,7 @@ class _SnakeGameState extends State<SnakeGame> {
   }
 
   void createSnake() {
-    for (var i = 0; i < 5; i++) {
+    for (var i = 0; i < 10; i++) {
       snakePosition.add(i);
     }
   }
@@ -90,10 +90,10 @@ class _SnakeGameState extends State<SnakeGame> {
     snakeBodyPosition.remove(snakePosition.last);
     if (snakeBodyPosition.contains(snakePosition.last)) {
       timer.cancel();
-      await HapticFeedback.mediumImpact();
       await HapticFeedback.vibrate();
       await Future.delayed(const Duration(seconds: 1));
       isGameRunning = false;
+      await HapticFeedback.vibrate();
       resetGame();
       startGame();
     }
