@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
       title: 'Snake Game',
       theme: ThemeData.dark(),
       home: const SnakeGame(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }

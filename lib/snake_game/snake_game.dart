@@ -227,17 +227,19 @@ class _SnakeGameState extends State<SnakeGame> {
               ],
             ),
           ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              timer.cancel();
-              resetGame();
-              isGameRunning = false;
-              setState(() {});
-            },
-            child: const Icon(
-              Icons.stop_rounded,
-            ),
-          ),
+          floatingActionButton: isGameRunning
+              ? FloatingActionButton(
+                  onPressed: () {
+                    timer.cancel();
+                    resetGame();
+                    isGameRunning = false;
+                    setState(() {});
+                  },
+                  child: const Icon(
+                    Icons.stop_rounded,
+                  ),
+                )
+              : null,
         ),
       ),
     );
